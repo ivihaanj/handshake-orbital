@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ground Station Dashboard (prototype)</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<header class="topbar">
+  <h1>🛰️ Ground Station Dashboard <span class="badge">prototype</span></h1>
+  <div class="controls">
+    <label>
+      Satellite
+      <select id="satellite-select"></select>
+    </label>
+    <label>
+      Ground station
+      <select id="station-select"></select>
+    </label>
+  </div>
+</header>
+
+<main class="layout">
+  <section class="panel map-panel">
+    <h2>Ground track</h2>
+    <p class="hint">
+      The line is the satellite's <strong>ground track</strong> — the point on Earth
+      directly beneath it — over the next ~110 minutes (about one orbit for a
+      low-orbit satellite). The marker is its live position right now.
+    </p>
+    <div id="map"></div>
+  </section>
+
+  <section class="panel passes-panel">
+    <h2>Upcoming passes <span class="hint-inline">next 7 days, from the selected ground station</span></h2>
+    <p class="hint">
+      A <strong>pass</strong> is a window when the satellite is above the horizon and
+      could be tracked/contacted. <strong>Max elevation</strong> is how high it climbs
+      in the sky (90&deg; = straight overhead) — higher usually means a cleaner signal.
+      Only passes reaching at least 10&deg; are shown.
+    </p>
+    <div id="passes-status" class="hint">Loading…</div>
+    <table id="passes-table" class="passes-table" hidden>
+      <thead>
+        <tr>
+          <th>Rise (local)</th>
+          <th>Max elevation</th>
+          <th>Set (local)</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+      <tbody id="passes-body"></tbody>
+    </table>
+  </section>
+
+  <section class="panel telemetry-panel">
+    <h2>Mock live telemetry <span class="hint-inline">simulated — not real data</span></h2>
+    <p class="hint">
+      Preview of what a live-pass dashboard could show. Values are randomly generated to
+      look plausible and refresh every couple seconds. Click "Start pass simulation" to
+      watch it run.
+    </p>
+    <button id="telemetry-toggle">Start pass simulation</button>
+    <div class="telemetry-grid">
+      <div class="telemetry-card">
+        <div class="telemetry-label">Battery</div>
+        <div class="telemetry-value" id="tm-battery">--%</div>
+      </div>
+      <div class="telemetry-card">
+        <div class="telemetry-label">Temperature</div>
+        <div class="telemetry-value" id="tm-temp">-- &deg;C</div>
+      </div>
+      <div class="telemetry-card">
+        <div class="telemetry-label">Signal strength</div>
+        <div class="telemetry-value" id="tm-signal">-- dBm</div>
+      </div>
+      <div class="telemetry-card">
+        <div class="telemetry-label">Link status</div>
+        <div class="telemetry-value" id="tm-link">IDLE</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
